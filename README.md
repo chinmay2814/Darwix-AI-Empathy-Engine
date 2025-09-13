@@ -44,8 +44,18 @@ The Empathy Engine combines sentiment analysis with advanced text-to-speech tech
                        └─────────────────┘
 ```
 ## Application Flow
-[![The-Empathy-Engine-visual-selection-1.png](https://i.postimg.cc/8CCmp1Cw/The-Empathy-Engine-visual-selection-1.png)](https://postimg.cc/SnwMVbCz)
+## 🔄 Application Flow
 
+1. **Input Processing**: User enters text through the web interface
+2. **Sentiment Analysis**: VADER analyzes emotional content and generates compound score
+3. **Emotion Classification**: System categorizes emotion as Positive, Negative, or Neutral
+4. **Voice Modulation**: Voice stability parameters are adjusted based on sentiment:
+   - **Positive**: Lower stability (0.25-0.5) for more expressive delivery
+   - **Negative**: Medium stability (0.6) for controlled emotional expression
+   - **Neutral**: Higher stability (0.75) for clear, steady delivery
+5. **Speech Synthesis**: ElevenLabs API generates audio with modulated voice settings
+6. **File Management**: Audio saved as timestamped MP3 file in static directory
+7. **Response Delivery**: Web interface displays results with audio player
 ## 📁 Project Structure
 
 ```
