@@ -43,7 +43,6 @@ The Empathy Engine combines sentiment analysis with advanced text-to-speech tech
                        │  Modulation     │
                        └─────────────────┘
 ```
-## Application Flow
 ## 🔄 Application Flow
 
 1. **Input Processing**: User enters text through the web interface
