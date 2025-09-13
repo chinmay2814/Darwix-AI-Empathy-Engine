@@ -6,14 +6,7 @@ A sophisticated text-to-speech application that analyzes emotional sentiment in 
 
 The Empathy Engine combines sentiment analysis with advanced text-to-speech technology to create emotionally intelligent voice synthesis. By analyzing the emotional content of input text using VADER sentiment analysis, the system dynamically adjusts voice parameters to match the detected emotion, resulting in more natural and expressive speech output.
 
-## 🚀 Features
-
-- **Intelligent Sentiment Analysis**: Uses VADER (Valence Aware Dictionary and sEntiment Reasoner) for accurate emotion detection
-- **Dynamic Voice Modulation**: Automatically adjusts voice stability based on detected sentiment
-- **Real-time Processing**: Instant text-to-speech conversion with emotional context
-- **Modern Web Interface**: Clean, responsive design with loading states and animations
-- **Audio Playback**: Built-in audio player with autoplay functionality
-- **Emotional Feedback**: Displays detected emotion and confidence scores
+[![The-Empathy-Engine-visual-selection.png](https://i.postimg.cc/FRWzV4bW/The-Empathy-Engine-visual-selection.png)](https://postimg.cc/bDnqq4Bk)
 
 ## 🛠️ Technology Stack
 
@@ -50,19 +43,8 @@ The Empathy Engine combines sentiment analysis with advanced text-to-speech tech
                        │  Modulation     │
                        └─────────────────┘
 ```
-
-## 🔄 Application Flow
-
-1. **Input Processing**: User enters text through the web interface
-2. **Sentiment Analysis**: VADER analyzes emotional content and generates compound score
-3. **Emotion Classification**: System categorizes emotion as Positive, Negative, or Neutral
-4. **Voice Modulation**: Voice stability parameters are adjusted based on sentiment:
-   - **Positive**: Lower stability (0.25-0.5) for more expressive delivery
-   - **Negative**: Medium stability (0.6) for controlled emotional expression
-   - **Neutral**: Higher stability (0.75) for clear, steady delivery
-5. **Speech Synthesis**: ElevenLabs API generates audio with modulated voice settings
-6. **File Management**: Audio saved as timestamped MP3 file in static directory
-7. **Response Delivery**: Web interface displays results with audio player
+## Application Flow
+[![The-Empathy-Engine-visual-selection-1.png](https://i.postimg.cc/8CCmp1Cw/The-Empathy-Engine-visual-selection-1.png)](https://postimg.cc/SnwMVbCz)
 
 ## 📁 Project Structure
 
