@@ -5,37 +5,167 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Empathy Engine</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f7f6; color: #333; max-width: 800px; margin: 40px auto; padding: 20px; }
-        h1 { color: #005f73; text-align: center; }
-        textarea { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; min-height: 100px; box-sizing: border-box; }
-        input[type="submit"] { display: block; width: 100%; padding: 15px; background-color: #0a9396; color: white; border: none; border-radius: 8px; font-size: 18px; cursor: pointer; margin-top: 20px; }
-        input[type="submit"]:hover { background-color: #005f73; }
-        .result-box { margin-top: 30px; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        audio { width: 100%; margin-top: 15px; }
-        h2 { color: #0a9396; }
-        p { line-height: 1.6; }
+        /* --- Imports & General Styling --- */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 40px 20px;
+            box-sizing: border-box;
+        }
+
+        /* --- Main Content Wrapper --- */
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #005f73;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        /* --- Form Elements --- */
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            min-height: 120px;
+            box-sizing: border-box;
+            resize: vertical;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #0a9396;
+            box-shadow: 0 0 0 3px rgba(10, 147, 150, 0.2);
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #0a9396;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #005f73;
+            transform: translateY(-2px);
+        }
+        
+        /* --- Loading State for the Button --- */
+        input[type="submit"].loading {
+            background-color: #555;
+            cursor: not-allowed;
+        }
+        
+        input[type="submit"].loading::after {
+            content: ' .';
+            animation: dots 1.4s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ' .'; }
+            40% { content: ' ..'; }
+            60% { content: ' ...'; }
+            80%, 100% { content: ''; }
+        }
+
+        /* --- Result Box --- */
+        .result-box {
+            margin-top: 30px;
+            background-color: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 5px solid #0a9396;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 15px;
+        }
+        
+        h2 {
+            color: #0a9396;
+            margin-top: 0;
+        }
+
+        p {
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
-    <h1>The Empathy Engine 🎙️</h1>
-    <p style="text-align: center;">Enter text below to generate speech with human-like emotion.</p>
-
-    <form action="/" method="post">
-        <textarea name="text" placeholder="e.g., This is the best news ever! Or... I am incredibly frustrated.">{{ text or '' }}</textarea>
-        <input type="submit" value="Synthesize Voice">
-    </form>
-
-    {% if audio_path %}
-    <div class="result-box">
-        <h2>Result</h2>
-        <p><strong>Original Text:</strong> {{ text }}</p>
-        <p><strong>Detected Emotion:</strong> {{ emotion }} (VADER Score: {{ polarity }})</p>
-        <audio controls autoplay>
-            <source src="{{ url_for('static', filename=audio_path) }}" type="audio/mpeg">
-            Your browser does not support the audio element.
-        </audio>
+    <div class="container">
+        <h1>The Empathy Engine 🎙️</h1>
+        <p class="subtitle">Enter text below to generate speech with human-like emotion.</p>
+    
+        <form id="tts-form" action="/" method="post">
+            <textarea name="text" placeholder="e.g., This is the best news ever! Or... I am incredibly frustrated.">{{ text or '' }}</textarea>
+            <input id="submit-button" type="submit" value="Synthesize Voice">
+        </form>
+    
+        {% if audio_path %}
+        <div class="result-box">
+            <h2>Result</h2>
+            <p><strong>Original Text:</strong> {{ text }}</p>
+            <p><strong>Detected Emotion:</strong> {{ emotion }} (VADER Score: {{ polarity }})</p>
+            <audio controls autoplay>
+                <source src="{{ url_for('static', filename=audio_path) }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
+
+    <script>
+        const ttsForm = document.getElementById('tts-form');
+        const submitButton = document.getElementById('submit-button');
+
+        ttsForm.addEventListener('submit', function() {
+            // Change button text to show it's working
+            submitButton.value = 'Synthesizing...';
+            // Add a class to style the loading state
+            submitButton.classList.add('loading');
+            // Disable the button to prevent multiple clicks
+            submitButton.disabled = true;
+        });
+    </script>
 
 </body>
 </html>
